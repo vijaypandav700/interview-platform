@@ -7,7 +7,6 @@
     "start": "npm run start --prefix backend"
   },
   "repository": {
-    "type": "git",
     "url": "git+https://github.com/vijaypandav700/interview-platform.git"
   },
   "keywords": [],
