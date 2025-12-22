@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "cd backend && npm install && cd ../frontend && npm install && npm run build && cd ..",
+    "build": "cd backend && npm install && cd ../frontend && npm install --production=false && npm run build && cd ..",
     "start": "cd backend && npm start"
   },
   "repository": {
