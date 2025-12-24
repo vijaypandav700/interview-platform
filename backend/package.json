@@ -19,6 +19,7 @@
     "inngest": "^3.44.3",
     "interview-platform": "file:..",
     "mongoose": "^8.19.1",
+    "stream-chat": "^9.24.0",
     "svix": "^1.82.0"
   },
   "devDependencies": {
