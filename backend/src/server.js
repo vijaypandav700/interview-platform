@@ -15,6 +15,36 @@ const app = express();
 
 const __dirname = path.resolve();
 
+// IMPORTANT: For Clerk webhooks, we need raw body
+app.post(
+  "/api/webhooks/clerk",
+  express.raw({ type: "application/json" }),
+  async (req, res) => {
+    try {
+      const payload = req.body.toString();
+      const headers = {
+        "svix-id": req.headers["svix-id"],
+        "svix-timestamp": req.headers["svix-timestamp"],
+        "svix-signature": req.headers["svix-signature"],
+      };
+
+      const wh = new Webhook(process.env.CLERK_WEBHOOK_SECRET);
+      const evt = wh.verify(payload, headers);
+
+      // Send event to Inngest
+      await inngest.send({
+        name: `clerk/${evt.type}`,
+        data: evt.data,
+      });
+
+      res.status(200).json({ message: "Webhook received" });
+    } catch (error) {
+      console.error("Webhook error:", error);
+      res.status(400).json({ error: "Webhook verification failed" });
+    }
+  }
+);
+
 // middleware
 app.use(express.json());
 app.use(cors({ origin: ENV.CLIENT_URL, credentials: true }));
